@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RSA & AES," />
 
 
 
@@ -79,16 +79,21 @@
 
 
 
-<meta name="description" content="我不知道未来我将去何方，但我一直在路上">
-<meta property="og:type" content="website">
-<meta property="og:title" content="JAMES">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="WhyWhen the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.Such as fiddler, Wireshark etc. This means that our data i">
+<meta name="keywords" content="RSA &amp; AES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.Js RSA &amp; AES">
+<meta property="og:url" content="http://yoursite.com/2017/11/01/Node-Js-RSA-AES/index.html">
 <meta property="og:site_name" content="JAMES">
-<meta property="og:description" content="我不知道未来我将去何方，但我一直在路上">
+<meta property="og:description" content="WhyWhen the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.Such as fiddler, Wireshark etc. This means that our data i">
 <meta property="og:locale" content="zh-hk">
+<meta property="og:image" content="http://yoursite.com/images/crypto-publickey-encrypt-block.png">
+<meta property="og:image" content="http://yoursite.com/images/crypto-privatekey-decrypt-block.png">
+<meta property="og:updated_time" content="2017-11-07T09:17:06.496Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JAMES">
-<meta name="twitter:description" content="我不知道未来我将去何方，但我一直在路上">
+<meta name="twitter:title" content="Node.Js RSA &amp; AES">
+<meta name="twitter:description" content="WhyWhen the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.Such as fiddler, Wireshark etc. This means that our data i">
+<meta name="twitter:image" content="http://yoursite.com/images/crypto-publickey-encrypt-block.png">
 
 
 
@@ -118,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/01/Node-Js-RSA-AES/"/>
 
 
 
 
 
-  <title>JAMES</title>
+  <title>Node.Js RSA & AES | JAMES</title>
   
 
 
@@ -143,8 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,9 +231,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -259,9 +263,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/01/Node-Js-RSA-AES/" itemprop="url">Node.Js RSA & AES</a></h1>
+          <h1 class="post-title" itemprop="name headline">Node.Js RSA & AES</h1>
         
 
         <div class="post-meta">
@@ -311,9 +313,7 @@
       
 
       
-        
-          
-            <h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>When the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.<br>Such as fiddler, Wireshark etc.</p>
+        <h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>When the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.<br>Such as fiddler, Wireshark etc.</p>
 <p>This means that our data is not always in a safe environment.<br>So we need to encrypt out data when having data transmission.</p>
 <h6 id="For-Module"><a href="#For-Module" class="headerlink" title="For Module"></a>For Module</h6><p>Node official provide <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="external">Crypto.js</a> module, it offers a variety of encryption methods, such as RSA &amp; AES etc.</p>
 <p><strong><em>The following are the use of methods provided by the <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="external">Crypto.js</a> module</em></strong></p>
@@ -370,8 +370,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const crypto = require(<span class="string">'crypto'</span>);</div><div class="line">const Constants = require(<span class="string">'./Constants'</span>)</div><div class="line"></div><div class="line">exports.cipher = (data, cb) =&gt; &#123;</div><div class="line">    const cipher = crypto.createCipher(<span class="string">'aes192'</span>, Constants.AES_SECRET);</div><div class="line">    <span class="built_in">let</span> encrypted = cipher.update(data, <span class="string">'utf8'</span>, <span class="string">'base64'</span>);</div><div class="line">    encrypted += cipher.final(<span class="string">'base64'</span>);</div><div class="line">    cb(encrypted)</div><div class="line">&#125;</div><div class="line">``` </div><div class="line">- Decipher</div><div class="line">``` bash</div><div class="line">exports.decipher = (cipherText, cb) =&gt; &#123;</div><div class="line">    const decipher = crypto.createDecipher(<span class="string">'aes192'</span>, Constants.AES_SECRET);</div><div class="line">    <span class="built_in">let</span> decrypted = decipher.update(cipherText, <span class="string">'base64'</span>, <span class="string">'utf8'</span>);</div><div class="line">    decrypted += decipher.final(<span class="string">'utf8'</span>);</div><div class="line">    cb(decrypted)</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -386,151 +384,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/31/blog-introduce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="James.Yang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head-icon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JAMES">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/31/blog-introduce/" itemprop="url">Github.io + Hexo To Build Your Blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-10-31T16:12:29+08:00">
-                2017-10-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/RSA-AES/" rel="tag"># RSA & AES</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is my first blog. Building github page - <a href="http://josenspire.github.io" target="_blank" rel="external">github.io</a><br>Using theme by <a href="https://hexo.io/" target="_blank" rel="external">hexo</a> - <a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="external">next</a></p>
-<p><a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. </p>
-<h2 id="Github-Pages-Config"><a href="#Github-Pages-Config" class="headerlink" title="Github Pages Config"></a>Github Pages Config</h2><p>Creating a new repository name [USERNAME].github.io</p>
-<p>Init a hexo project and replace a theme as you like</p>
-<p>Runing command<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
-<p>To building your blog public files.</p>
-<p>Then push the deploy files which names ‘public’ to your repository([USERNAME].github.io)</p>
-<p>Reading the repository setting, viewing the Github Pages that you can see whether your pages config success or fail.</p>
-<p>If success, open your link by <a href="http://josenspire.github.io" target="_blank" rel="external">http://USERNAME.github.io</a></p>
-<p>It is working now</p>
-<h2 id="Hexo-Help"><a href="#Hexo-Help" class="headerlink" title="Hexo Help"></a>Hexo Help</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/31/blog-introduce/" rel="next" title="Github.io + Hexo To Build Your Blog">
+                <i class="fa fa-chevron-left"></i> Github.io + Hexo To Build Your Blog
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -540,10 +423,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -551,6 +435,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -571,8 +459,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -629,6 +526,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">1.</span> <span class="nav-text">Why</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#For-Module"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">For Module</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA"><span class="nav-number">2.</span> <span class="nav-text">RSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES"><span class="nav-number">3.</span> <span class="nav-text">AES</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -769,6 +682,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
