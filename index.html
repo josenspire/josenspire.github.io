@@ -242,6 +242,143 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/11/mongodb-role-management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James.Yang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head-icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAMES">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/11/mongodb-role-management/" itemprop="url">MongoDB-Role-Management.md</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-12-11T15:35:28+08:00">
+                2017-12-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><blockquote>
+<p><a href="https://www.mongodb.com/" target="_blank" rel="external">MongoDB</a> </p>
+</blockquote>
+<p>MongoDB is a NoSql database which is very easy to install and use.</p>
+<p>In fact, mongod has no administrator account by default. So if you build your database in a open public net environment that will be very vulnerable. Others can operation your database data at will.</p>
+<hr>
+<blockquote>
+<h4 id="Role-Kinds"><a href="#Role-Kinds" class="headerlink" title="Role Kinds"></a>Role Kinds</h4><p>The users of MongoDB are divided into <strong>two</strong> types, one is admin, the other is a specific database user.</p>
+</blockquote>
+<p>Admin users have the highest permissions, while specific database users can only access specific databases</p>
+<hr>
+<blockquote>
+<h4 id="Role-Management"><a href="#Role-Management" class="headerlink" title="Role Management"></a>Role Management</h4><p>Before you create your database user. We need to noted that MondoDB provide a database names ++<strong><em>admin</em></strong>++. If your want to control the access user, firstly have to create a admin user into admin database. Then you can create the user for the database.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; use admin</div><div class="line"></div><div class="line">&gt; db.createUser(&#123;user: &quot;admin&quot;, pwd: &quot;adminPassword&quot;, roles: [&#123;role: &quot;root&quot;, db: &quot;admin&quot;&#125;]&#125;)</div><div class="line"></div><div class="line">&gt; exit</div><div class="line"></div><div class="line">// restart mongo</div><div class="line">mongo --port 27017 -u admin -p adminPassword --authenticationDatabase admin</div><div class="line"></div><div class="line">&gt; use testDB</div><div class="line">&gt; db.createUser(&#123;user: &quot;testUser&quot;, pwd: &quot;dbPassword&quot;, roles: [&#123;role: &quot;readWrite&quot;, db: &quot;testDB&quot;&#125;]&#125;)</div><div class="line"></div><div class="line">&gt; db.auth(&quot;testUser&quot;, &quot;dbPassword&quot;)</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="Start-DB-Auth"><a href="#Start-DB-Auth" class="headerlink" title="Start DB Auth"></a>Start DB Auth</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; mongod --auth</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/Node-Js-RSA-AES/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -591,7 +728,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -604,7 +741,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
