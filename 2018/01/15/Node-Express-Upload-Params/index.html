@@ -83,14 +83,14 @@
 <meta name="keywords" content="Node.js,Express,带参上传">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node + Express 实现带参上传文件">
-<meta property="og:url" content="http://yoursite.com/2018/01/15/Node-Express-Upload-Params/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/15/node-express-upload-params/index.html">
 <meta property="og:site_name" content="JAMES">
 <meta property="og:description" content="Why?  实现图片上传是比较简单的，但是在传输参数和上传图片在同一个请求去解析时却遇到了问题。  Express 4.X之后，并不再集成 body-parser 模块，需要手动添加配置。 而 body-parser 是Express常用的用于解析http请求的模块； 在使用 Express应用生成器$ npm install express-generator -g自动构建目录时，会自动加入该">
 <meta property="og:locale" content="zh-hk">
 <meta property="og:image" content="http://yoursite.com/images/express-app-head.png">
 <meta property="og:image" content="http://yoursite.com/images/express-app-body.png">
 <meta property="og:image" content="http://yoursite.com/images/express-app-body-update.png">
-<meta property="og:updated_time" content="2018-01-15T07:09:00.556Z">
+<meta property="og:updated_time" content="2018-01-15T07:34:29.223Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node + Express 实现带参上传文件">
 <meta name="twitter:description" content="Why?  实现图片上传是比较简单的，但是在传输参数和上传图片在同一个请求去解析时却遇到了问题。  Express 4.X之后，并不再集成 body-parser 模块，需要手动添加配置。 而 body-parser 是Express常用的用于解析http请求的模块； 在使用 Express应用生成器$ npm install express-generator -g自动构建目录时，会自动加入该">
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/15/Node-Express-Upload-Params/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/15/node-express-upload-params/"/>
 
 
 
@@ -247,7 +247,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/Node-Express-Upload-Params/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/node-express-upload-params/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James.Yang">
@@ -324,6 +324,7 @@
 <li><p>该配置指定了body-parser可以解析 application/json 但是不能解析  文本格式的请求体，text/plain, application/x-www-form-urlencoded etc..  因此对于普通上传文件我们假设使用 <strong>multipart/form-data</strong> 表单上传，是无法正常获取到相关参数的。</p>
 </li>
 </ul>
+<hr>
 <blockquote>
 <h3 id="HOW？"><a href="#HOW？" class="headerlink" title="HOW？"></a>HOW？</h3></blockquote>
 <ul>
@@ -339,7 +340,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/** User avatar upload */</div><div class="line">exports.uploadAvatar = async (req, res, next) =&gt; &#123;</div><div class="line">  let result = &#123; status: CodeConstants.FAIL, data: &#123;&#125;, message: &quot;&quot; &#125;;</div><div class="line"></div><div class="line">  atavarUpload.single(&apos;uploadAvatar&apos;)(req, res, async err =&gt; &#123;</div><div class="line">    if (err) &#123;</div><div class="line">      console.error(err)</div><div class="line">      result.message = err;</div><div class="line">    &#125; else if (req.file) &#123;</div><div class="line">      let file = req.file;</div><div class="line">      let fileName = req.body.userID + &apos;-&apos; + uuidv4() + &apos;-&apos; + file.filename;</div><div class="line">      try &#123;</div><div class="line">        let uploadAvatarResult = await QiniuProxie.uploadAvatar(fileName, file.path);</div><div class="line">        result.status = CodeConstants.SUCCESS;</div><div class="line">        result.data = &#123; avatar: uploadAvatarResult.key &#125;;</div><div class="line">      &#125; catch (err) &#123;</div><div class="line">        result.message = err;</div><div class="line">      &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">      result.message = &quot;Parameters is incompleteness&quot;;</div><div class="line">    &#125;</div><div class="line">    return res.json(result);</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p> 此处是文件上传相关代码，其中，atavarUpload.single() 是引用了 <a href="https://github.com/expressjs/multer" target="_blank" rel="external"><strong>multer</strong></a> 模块来完成文件上传，它是以中间件形式存在，是一个可插拔上传模块。具体配置可参照官方介绍或<strong><em>文末介绍</em></strong>。</p>
 <p>此处并未体现中间件的形式，纯粹是本人结构需要，如这样处理有不好之处请告知，十分感谢！</p>
-<p>另外，如代码所示，通过body-parser配置之后，使用 <strong>req.body</strong> 可获取到相关请求体的内容，即form表单出file以外的参数； 而 <strong>req.file</strong> 即使所上传的图片。此处是上传文件到服务器本地之后，再上传至“七牛云”。</p>
+<blockquote>
+<p>Note: </p>
+</blockquote>
+<p>在上述代码中，获取参数 <strong>[req.body]</strong> 是在回调函数中才可获取到正确的参数内容，在回调方法外是无法获取到参数的； 因为在回调方法中请求经过 multer 模块的进一步解析。因此使用 <strong>req.body</strong> 可获取到相关请求体的内容，即form表单除 file 以外的参数； 而 <strong>req.file</strong> 即使所上传的图片。此处是上传文件到服务器本地之后，再上传至“七牛云”。</p>
+<hr>
 <blockquote>
 <h3 id="END"><a href="#END" class="headerlink" title="END"></a>END</h3></blockquote>
 <ul>
