@@ -242,6 +242,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/network-protocol/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James.Yang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head-icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAMES">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/09/network-protocol/" itemprop="url">HTTP-HTTPS-TCP/IP协议</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T14:06:42+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h3 id="1-HTTP协议"><a href="#1-HTTP协议" class="headerlink" title="1. HTTP协议"></a>1. HTTP协议</h3><blockquote>
+<p>HTTP 协议, 是应用最广泛的一种网络协议，是无状态协议，是基于 TCP/IP 通信协议来传输数据。 客户机可以通过URL向HTTP服务端（服务器）发送请求，然后服务端响应该请求，之后关闭这个连接。</p>
+</blockquote>
+<ul>
+<li>支持客户/服务器模式</li>
+<li>简单快速</li>
+<li>灵活</li>
+<li>无连接</li>
+<li>无状态</li>
+</ul>
+<h4 id="无连接？"><a href="#无连接？" class="headerlink" title="无连接？"></a>无连接？</h4><p>-&gt; 含义是限制每次连接只处理一次请求。服务器处理完客户端请求，并收到客户端的应答之后，立即断开连接。以此可以节省传输时间</p>
+<h4 id="无状态？"><a href="#无状态？" class="headerlink" title="无状态？"></a>无状态？</h4><p>-&gt; HTTP协议即无状态协议，即协议对事务处理没有记忆能力，服务器无法区别是否已响应过用户的请求。 而++每次发送http请求时，客户端都要发起一个到服务端的TCP连接++，TCP的建立又涉及“三次握手”的过程。对于大流量的服务器来说这个过程的开销是十分大的。因此出现了“++短连接++”、“++长连接++” 的设计。</p>
+<h4 id="HTTP工作过程-？"><a href="#HTTP工作过程-？" class="headerlink" title="HTTP工作过程 ？"></a>HTTP工作过程 ？</h4><ol>
+<li>地址解析：浏览器从URL中解析出协议吗，主机名，端口，对象路径等，域名系统DNS解析域名得到主机IP地址</li>
+<li>封装HTTP请求数据包：将以上部分结合本机自己的信息，打包成一个HTTP请求包</li>
+<li>封装TCP包，建立TCP连接：发送HTTP请求数据包前，客户端需要通过网络与服务器建立连接，该连接是通过TCP来完成的，而TCP需要和IP来共同构建Internet（TCP/IP网络），即TCP/IP协议。构建成功之后才可以发起HTTP协议</li>
+<li>建立连接后，客户机向服务端发起一个请求，格式为：URL，协议版本号，MIME信息，客户机信息等</li>
+<li>服务器响应：响应信息包括，状态行，信息协议版本号，成功、错误的代码，MIME信息，服务器信息，实体信息等</li>
+<li>服务器关闭TCP连接：通常，当服务器响应客户端返回数据时，它就要关闭TCP连接了</li>
+</ol>
+<h4 id="TCP-长短连接？"><a href="#TCP-长短连接？" class="headerlink" title="TCP 长短连接？"></a>TCP 长短连接？</h4><ul>
+<li><p>短连接(Persistent Connection)：客户机发送一个HTTP请求，会先发起一个TCP连接，待服务端响应请求之后，立即关闭TCP链接</p>
+</li>
+<li><p>长连接(Keep-Alive) ：客户机发送一个HTTP请求，发起一个TCP连接，服务端响应之后，保持TCP连接打开，在相同的客户机和服务器之间的后续请求和响应报文则通过相同的TCP连接来通信，不需要再次建立TCP</p>
+</li>
+</ul>
+<h3 id="2-TCP-IP"><a href="#2-TCP-IP" class="headerlink" title="2. TCP/IP"></a>2. TCP/IP</h3><ul>
+<li>四层协议</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>C</th>
+<th>T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用层</td>
+<td>TELNET  FTP  HTTP SMTP DNS等</td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>TCP  UDP</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>IP  ICMP  ARP  RARP</td>
+</tr>
+<tr>
+<td>网络接口层</td>
+<td>物理通信接口</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>一个TCP的连接，需要经过“三次握手”才能建立起来。<br>-&gt; 主机A向主机B发送请求数据包（ACK=0，SYN=1,seq=x），主机B向主机A发送同意连接和要求同步（SYN=1,ACK=1,seq=x,ack=x+1），主机A在向主机B发送一个数据包确认B主机的同步要求（ACK=1,seq=x+1,ack=y+1）</p>
+</li>
+<li><p>A为什么会再确认一次呢，主要是为了防止已失效的连接请求报文段又突然传送给B，从而产生了错误</p>
+</li>
+<li><p>为什么建立连接是三次握手，断开连接是四次握手？ 因为当Server收到Client的SYN连接请求后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。 而断开连接时，当Server端收到FIN请求报文时，很可能不会立即关闭SOCKET，所以只能先回复一个ACK报文告诉Client已经收到了FIN报文，只有等Server端所有的数据都发送完了之后，才能发送FIN报文，因此需要四次握手</p>
+</li>
+</ul>
+<h3 id="3-HTTPS"><a href="#3-HTTPS" class="headerlink" title="3. HTTPS"></a>3. HTTPS</h3><blockquote>
+<p>HTTPS = SSL/TLS + HTTP; 安全的一种HTTP传输协议。</p>
+</blockquote>
+<ul>
+<li>Client 发起HTTPS请求时，在TCP连接建立的过程中，Server返回非对称加密公钥（证书）给Client，Client生成对称加密秘钥，并使用公钥进行加密，然后将加密的对称秘钥发送给Server。开始进行密文传输</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/node-express-upload-params/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -261,7 +450,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/15/node-express-upload-params/" itemprop="url">Node + Express 实现带参上传文件</a></h1>
+                <a class="post-title-link" href="/2018/01/15/node-express-upload-params/" itemprop="url">Express 实现带参上传文件</a></h1>
         
 
         <div class="post-meta">
@@ -891,7 +1080,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -904,7 +1093,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
