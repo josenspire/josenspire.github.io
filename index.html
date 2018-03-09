@@ -507,7 +507,7 @@
 <ul>
 <li><p>实现图片上传是比较简单的，但是在传输参数和上传图片在同一个请求去解析时却遇到了问题。</p>
 </li>
-<li><p>Express 4.X之后，并不再集成 <a href="https://github.com/expressjs/body-parser" target="_blank" rel="external"><strong>body-parser</strong></a> 模块，需要手动添加配置。 而 body-parser 是Express常用的用于解析http请求的模块； 在使用 Express应用生成器<br><strong>$ npm install express-generator -g</strong><br>自动构建目录时，会自动加入该模块，并自动添加了部分相关配置，如下：<img src="/images/express-app-head.png" alt="image"><img src="/images/express-app-body.png" alt="image"></p>
+<li><p>Express 4.X之后，并不再集成 <a href="https://github.com/expressjs/body-parser" target="_blank" rel="noopener"><strong>body-parser</strong></a> 模块，需要手动添加配置。 而 body-parser 是Express常用的用于解析http请求的模块； 在使用 Express应用生成器<br><strong>$ npm install express-generator -g</strong><br>自动构建目录时，会自动加入该模块，并自动添加了部分相关配置，如下：<img src="/images/express-app-head.png" alt="image"><img src="/images/express-app-body.png" alt="image"></p>
 </li>
 <li><p>该配置指定了body-parser可以解析 application/json 但是不能解析  文本格式的请求体，text/plain, application/x-www-form-urlencoded etc..  因此对于普通上传文件我们假设使用 <strong>multipart/form-data</strong> 表单上传，是无法正常获取到相关参数的。</p>
 </li>
@@ -516,7 +516,7 @@
 <blockquote>
 <h3 id="HOW？"><a href="#HOW？" class="headerlink" title="HOW？"></a>HOW？</h3></blockquote>
 <ul>
-<li><p>body-parser 模块提供了许多API，可配置性高，具体此处不再赘叙，详细请查看 <a href="https://github.com/expressjs/body-parser" target="_blank" rel="external">body-parser 官方文档</a>介绍</p>
+<li><p>body-parser 模块提供了许多API，可配置性高，具体此处不再赘叙，详细请查看 <a href="https://github.com/expressjs/body-parser" target="_blank" rel="noopener">body-parser 官方文档</a>介绍</p>
 </li>
 <li><p>首先是可配置支持的解析类型：<br><img src="/images/express-app-body-update.png" alt="image"> </p>
 </li>
@@ -526,7 +526,7 @@
 <li>经上述配置之后，express 便可支持text等格式的参数解析了。话不多说直接看示例代码：</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/** User avatar upload */</div><div class="line">exports.uploadAvatar = async (req, res, next) =&gt; &#123;</div><div class="line">  let result = &#123; status: CodeConstants.FAIL, data: &#123;&#125;, message: &quot;&quot; &#125;;</div><div class="line"></div><div class="line">  atavarUpload.single(&apos;uploadAvatar&apos;)(req, res, async err =&gt; &#123;</div><div class="line">    if (err) &#123;</div><div class="line">      console.error(err)</div><div class="line">      result.message = err;</div><div class="line">    &#125; else if (req.file) &#123;</div><div class="line">      let file = req.file;</div><div class="line">      let fileName = req.body.userID + &apos;-&apos; + uuidv4() + &apos;-&apos; + file.filename;</div><div class="line">      try &#123;</div><div class="line">        let uploadAvatarResult = await QiniuProxie.uploadAvatar(fileName, file.path);</div><div class="line">        result.status = CodeConstants.SUCCESS;</div><div class="line">        result.data = &#123; avatar: uploadAvatarResult.key &#125;;</div><div class="line">      &#125; catch (err) &#123;</div><div class="line">        result.message = err;</div><div class="line">      &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">      result.message = &quot;Parameters is incompleteness&quot;;</div><div class="line">    &#125;</div><div class="line">    return res.json(result);</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 此处是文件上传相关代码，其中，atavarUpload.single() 是引用了 <a href="https://github.com/expressjs/multer" target="_blank" rel="external"><strong>multer</strong></a> 模块来完成文件上传，它是以中间件形式存在，是一个可插拔上传模块。具体配置可参照官方介绍或<strong><em>文末介绍</em></strong>。</p>
+<p> 此处是文件上传相关代码，其中，atavarUpload.single() 是引用了 <a href="https://github.com/expressjs/multer" target="_blank" rel="noopener"><strong>multer</strong></a> 模块来完成文件上传，它是以中间件形式存在，是一个可插拔上传模块。具体配置可参照官方介绍或<strong><em>文末介绍</em></strong>。</p>
 <p>此处并未体现中间件的形式，纯粹是本人结构需要，如这样处理有不好之处请告知，十分感谢！</p>
 <blockquote>
 <p>Note: </p>
@@ -666,7 +666,7 @@
         
           
             <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><blockquote>
-<p><a href="https://www.mongodb.com/" target="_blank" rel="external">MongoDB</a> </p>
+<p><a href="https://www.mongodb.com/" target="_blank" rel="noopener">MongoDB</a> </p>
 </blockquote>
 <p>MongoDB is a NoSql database which is very easy to install and use.</p>
 <p>In fact, mongod has no administrator account by default. So if you build your database in a open public net environment that will be very vulnerable. Others can operation your database data at will.</p>
@@ -804,9 +804,9 @@
           
             <h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>When the client or the front end calls the API of the server to request the data, it is easy to intercept the user request / response data.<br>Such as fiddler, Wireshark etc.</p>
 <p>This means that our data is not always in a safe environment.<br>So we need to encrypt out data when having data transmission.</p>
-<h6 id="For-Module"><a href="#For-Module" class="headerlink" title="For Module"></a>For Module</h6><p>Node official provide <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="external">Crypto.js</a> module, it offers a variety of encryption methods, such as RSA &amp; AES etc.</p>
-<p><strong><em>The following are the use of methods provided by the <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="external">Crypto.js</a> module</em></strong></p>
-<h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="external">RSA</a></h2><ul>
+<h6 id="For-Module"><a href="#For-Module" class="headerlink" title="For Module"></a>For Module</h6><p>Node official provide <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="noopener">Crypto.js</a> module, it offers a variety of encryption methods, such as RSA &amp; AES etc.</p>
+<p><strong><em>The following are the use of methods provided by the <a href="https://nodejs.org/dist/latest-v9.x/docs/api/crypto.html" target="_blank" rel="noopener">Crypto.js</a> module</em></strong></p>
+<h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a><a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="noopener">RSA</a></h2><ul>
 <li>Prepare a pair of public and private keys and save in files.</li>
 <li>Ensure your <strong>key’s padding</strong>, it need to be same type when encrypt or decrypt.</li>
 </ul>
@@ -852,7 +852,7 @@
 </ol>
 </li>
 </ul>
-<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a><a href="https://baike.baidu.com/item/aes/5903?fr=aladdin" target="_blank" rel="external">AES</a></h2><ul>
+<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a><a href="https://baike.baidu.com/item/aes/5903?fr=aladdin" target="_blank" rel="noopener">AES</a></h2><ul>
 <li><p>Save your secret key as a variable or in a file</p>
 </li>
 <li><p>Cipher</p>
@@ -977,24 +977,24 @@
       
         
           
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is my first blog. Building github page - <a href="http://josenspire.github.io" target="_blank" rel="external">github.io</a><br>Using theme by <a href="https://hexo.io/" target="_blank" rel="external">hexo</a> - <a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="external">next</a></p>
-<p><a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. </p>
+            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is my first blog. Building github page - <a href="http://josenspire.github.io" target="_blank" rel="noopener">github.io</a><br>Using theme by <a href="https://hexo.io/" target="_blank" rel="noopener">hexo</a> - <a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="noopener">next</a></p>
+<p><a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. </p>
 <h2 id="Github-Pages-Config"><a href="#Github-Pages-Config" class="headerlink" title="Github Pages Config"></a>Github Pages Config</h2><p>Creating a new repository name [USERNAME].github.io</p>
 <p>Init a hexo project and replace a theme as you like</p>
 <p>Runing command<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
 <p>To building your blog public files.</p>
 <p>Then push the deploy files which names ‘public’ to your repository([USERNAME].github.io)</p>
 <p>Reading the repository setting, viewing the Github Pages that you can see whether your pages config success or fail.</p>
-<p>If success, open your link by <a href="http://josenspire.github.io" target="_blank" rel="external">http://USERNAME.github.io</a></p>
+<p>If success, open your link by <a href="http://josenspire.github.io" target="_blank" rel="noopener">http://USERNAME.github.io</a></p>
 <p>It is working now</p>
 <h2 id="Hexo-Help"><a href="#Hexo-Help" class="headerlink" title="Hexo Help"></a>Hexo Help</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
           
         
