@@ -242,6 +242,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/Event-Loop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James.Yang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head-icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAMES">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/20/Event-Loop/" itemprop="url">Event-Loop</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T09:23:22+08:00">
+                2018-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><ul>
+<li><p>事件循环是在主线程上完成的</p>
+</li>
+<li><p>事件循环会无限次地执行，一轮又一轮。只有异步任务的回调函数队列清空了，才会停止执行</p>
+</li>
+<li><p>setTimeout在 timers 阶段执行，而setImmediate在 check 阶段执行</p>
+</li>
+</ul>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2018/bg2018022305.jpg" alt="image"></p>
+<p>下面是一个官方的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">const timeoutScheduled = Date.now();</div><div class="line"></div><div class="line">// 异步任务一：100ms 后执行的定时器</div><div class="line">setTimeout(() =&gt; &#123;</div><div class="line">  const delay = Date.now() - timeoutScheduled;</div><div class="line">  console.log(`$&#123;delay&#125;ms`);</div><div class="line">&#125;, 100);</div><div class="line"></div><div class="line">// 异步任务二：文件读取后，有一个 200ms 的回调函数</div><div class="line">fs.readFile(&apos;test.js&apos;, () =&gt; &#123;</div><div class="line">  const startCallback = Date.now();</div><div class="line">  while (Date.now() - startCallback &lt; 200) &#123;</div><div class="line">    // 什么也不做</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h5 id="事件循环分析："><a href="#事件循环分析：" class="headerlink" title="事件循环分析："></a>事件循环分析：</h5><ol>
+<li>第一轮事件，首先执行完同步代码之后，事件队列 push 进了 setTimeout， fs.readFile 两个异步操作。 主线程首先在 timers 阶段检查，没有到期的定时器，便离开这一阶段，同时没有可执行 I/O 操作，进入第二轮事件循环</li>
+<li>由于读取小文件一般不会超过 100ms，所以此时依然没有到期的定时器，而 I/O 已经有callback返回，则 Poll 阶段就会得到结果，所以会执行 I/O 函数 ++readFile()++，而该 I/O 还未执行完的时候，定时器已经到期，但是必须执行完当前阶段，才会离开当前阶段继续往下执行</li>
+<li>进入第三轮事件循环，此时 timers 检测到定时器到期，执行定时器，因此此时输出时间大概在<br>200ms 左右</li>
+</ol>
+<hr>
+<h5 id="关于-Macrotask-Microtask"><a href="#关于-Macrotask-Microtask" class="headerlink" title="关于 Macrotask / Microtask"></a>关于 Macrotask / Microtask</h5><ul>
+<li><p>Macrotask: setTimeout, setInterval, setImmediate, I/O, UI rendering</p>
+</li>
+<li><p>Microtask: process.nextTick, Promise, Object.observe, MutationObserver</p>
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>Node 规定，process.nextTick和Promise的回调函数，追加在本轮循环，即同步任务一旦执行完成，就开始执行它们。而setTimeout、setInterval、setImmediate的回调函数，追加在次轮循环 <br></li>
+<li>其中 process.nextTick 是所有异步任务里面最快执行的. Node 执行完所有同步任务，接下来就会执行process.nextTick的任务队列</li>
+</ol>
+</blockquote>
+<ul>
+<li>特殊举例1：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setTimeout(() =&gt; console.log(1));</div><div class="line">setImmediate(() =&gt; console.log(2));</div></pre></td></tr></table></figure>
+<p>注：结果不唯一， 1/2， 2/1 都可能，因为事件的取值范围在1毫秒到2147483647毫秒之间。<br><br>因此 setTimeout(()=&gt;{}, 0) 和 setTimeout(()=&gt;{}, 1) 是一样的， Node 做不到0毫秒，最少也需要1毫秒。</p>
+<hr>
+<p>特殊举例2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">const fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">fs.readFile(&apos;test.js&apos;, () =&gt; &#123;</div><div class="line">  setTimeout(() =&gt; console.log(1));</div><div class="line">  setImmediate(() =&gt; console.log(2));</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上述代码中，输出结果一定是： 2 1</p>
+<p>注：setTimeout 是在 timers 阶段执行，setImmediate 是在 check 阶段执行。 该轮事件循环中，只有 I/O 函数 fs.readFile ，会先进入 I/O callback 阶段，然后进入 check 阶段，所以先执行了 setImmediate， 结束后第二轮循环，进入 timers 阶段，执行 setTimeout 定时器</p>
+<hr>
+<ul>
+<li>特殊举例3：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 下面两行，次轮循环执行</div><div class="line">setTimeout(() =&gt; console.log(1));</div><div class="line">setImmediate(() =&gt; console.log(2));</div><div class="line">// 下面两行，本轮循环执行</div><div class="line">process.nextTick(() =&gt; console.log(3));</div><div class="line">Promise.resolve().then(() =&gt; console.log(4));</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>思考： 按照上述例子，此处为什么不是输出 ++3 4 1 2++ 或 ++3 4 2 1++ ？ setTimeout/setImmediate 不是应该都可能有先后顺序吗？</p>
+<p>注：因为此时 setTimeout，setImmediate 已经是处于第二轮事件循环队列中了，已经执行过一轮事件循环，node现阶段再快，1ms 也近乎是极限了，所以 timers 开始执行 setTimeout， 然后到了 check 再执行了 setImmediate</p>
+<hr>
+<ul>
+<li>例 2：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">setImmediate(function () &#123;          // s1</div><div class="line">    console.log(1);</div><div class="line">    setImmediate(function () &#123;</div><div class="line">        console.log(6);</div><div class="line">    &#125;)</div><div class="line">    process.nextTick(function () &#123;</div><div class="line">        console.log(2);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line">process.nextTick(function () &#123;</div><div class="line">    console.log(3);</div><div class="line">    setImmediate(function () &#123;      // s2</div><div class="line">        console.log(4);</div><div class="line">    &#125;)</div><div class="line">    setImmediate(function () &#123;      // s3</div><div class="line">        console.log(5);</div><div class="line">    &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上述输出结果为：3 1 4 5 2 6</p>
+<p>注：</p>
+<ol>
+<li>process.nextTick 的回调会在 timers 阶段和I/O callbacks 阶段之间执行。执行同步代码结束，执行 process.nextTick 输出 3</li>
+<li>s1 是处于主线程的同步代码中，所以它的回调会排在 s2, s3 之前，但是三个 setImmediate s1, s2, s3处于同一轮事件循环中，因为第二个 setImmediate 执行的时候，check 阶段还没有过，所以此时依次输出 1 4 5</li>
+<li>进入新一轮事件循环，先执行 process.nextTick 回调，输出 2， 再进入 check 阶段执行 setImmediate 输出 6 </li>
+</ol>
+<hr>
+<blockquote>
+<p>参考了  <strong>阮一峰</strong>  很多知识点的讲解，非常受用，也让自己对 Event Loop 有了更加清晰的理解</p>
+<p>参考链接：<a href="http://www.ruanyifeng.com/blog/2018/02/node-event-loop.html" target="_blank" rel="noopener">Node 定时器</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/network-protocol/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1080,7 +1261,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1093,7 +1274,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
