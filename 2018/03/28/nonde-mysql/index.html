@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Github.io,Hexo," />
+  <meta name="keywords" content="mysql," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="IntroductionThis is my first blog. Building github page - github.ioUsing theme by hexo - next Hexo! This is your very first post. Check documentation for more info.  Github Pages ConfigCreating a new">
-<meta name="keywords" content="Github.io,Hexo">
+<meta name="description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Github.io + Hexo To Build Your Blog">
-<meta property="og:url" content="http://yoursite.com/2017/10/31/blog-introduce/index.html">
+<meta property="og:title" content="Node 连接 MySql">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/nonde-mysql/index.html">
 <meta property="og:site_name" content="JAMES">
-<meta property="og:description" content="IntroductionThis is my first blog. Building github page - github.ioUsing theme by hexo - next Hexo! This is your very first post. Check documentation for more info.  Github Pages ConfigCreating a new">
+<meta property="og:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-16T08:55:48.583Z">
+<meta property="og:updated_time" content="2018-03-28T07:42:23.792Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github.io + Hexo To Build Your Blog">
-<meta name="twitter:description" content="IntroductionThis is my first blog. Building github page - github.ioUsing theme by hexo - next Hexo! This is your very first post. Check documentation for more info.  Github Pages ConfigCreating a new">
+<meta name="twitter:title" content="Node 连接 MySql">
+<meta name="twitter:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/31/blog-introduce/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/28/nonde-mysql/"/>
 
 
 
 
 
-  <title>Github.io + Hexo To Build Your Blog | JAMES</title>
+  <title>Node 连接 MySql | JAMES</title>
   
 
 
@@ -243,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/31/blog-introduce/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/28/nonde-mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James.Yang">
@@ -260,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Github.io + Hexo To Build Your Blog</h1>
+          <h1 class="post-title" itemprop="name headline">Node 连接 MySql</h1>
         
 
         <div class="post-meta">
@@ -272,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-31T16:36:04+08:00">
-                2017-10-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-28T15:40:39+08:00">
+                2018-03-28
               </time>
             
 
@@ -310,25 +310,26 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This is my first blog. Building github page - <a href="http://josenspire.github.io" target="_blank" rel="noopener">github.io</a><br>Using theme by <a href="https://hexo.io/" target="_blank" rel="noopener">hexo</a> - <a href="http://theme-next.iissnan.com/theme-settings.html" target="_blank" rel="noopener">next</a></p>
-<p><a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. </p>
-<h2 id="Github-Pages-Config"><a href="#Github-Pages-Config" class="headerlink" title="Github Pages Config"></a>Github Pages Config</h2><p>Creating a new repository name [USERNAME].github.io</p>
-<p>Init a hexo project and replace a theme as you like</p>
-<p>Runing command<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
-<p>To building your blog public files.</p>
-<p>Then push the deploy files which names ‘public’ to your repository([USERNAME].github.io)</p>
-<p>Reading the repository setting, viewing the Github Pages that you can see whether your pages config success or fail.</p>
-<p>If success, open your link by <a href="http://josenspire.github.io" target="_blank" rel="noopener">http://USERNAME.github.io</a></p>
-<p>It is working now</p>
-<h2 id="Hexo-Help"><a href="#Hexo-Help" class="headerlink" title="Hexo Help"></a>Hexo Help</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <hr>
+<h4 id="MySql-安装"><a href="#MySql-安装" class="headerlink" title="MySql 安装"></a>MySql 安装</h4><p>在使用 node 连接 mysql前，准备好 mysql 环境</p>
+<p>进入 <a href="https://dev.mysql.com/downloads/" target="_blank" rel="noopener">MySql 官网</a> 下载 MySql Server</p>
+<blockquote>
+<p>另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版</p>
+</blockquote>
+<ol>
+<li>打开 MySql 压缩包，免安装，进入 bin 目录</li>
+<li>在使用 mysql 之前，需要启动服务，这里直接注册为服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 初始化安装</div><div class="line">&gt; mysqld --initialize --user=root --console (仔细看log，记录下生成的临时密码)</div><div class="line">&gt; mysql -u root -p (Can not connect to MySQL server on localhost (10061))</div><div class="line">&gt; mysqld --install</div><div class="line">&gt; net start mysql (启动服务)</div><div class="line">&gt; mysql -u root -p</div><div class="line">&gt; Enter password:******* （输入临时密码）</div><div class="line">&gt; (登录成功)</div><div class="line">&gt; set password=password(&quot;newPassword&quot;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h4 id="Node-连接"><a href="#Node-连接" class="headerlink" title="Node 连接"></a>Node 连接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">const mysql = require(&apos;mysql&apos;);</div><div class="line"></div><div class="line">const connection = mysql.createConnection(&#123;</div><div class="line">  host: &apos;localhost&apos;,</div><div class="line">  port: &apos;3306&apos;,</div><div class="line">  charset: &apos;UTF8_GENERAL_CI&apos;,</div><div class="line">  timezone: &apos;local&apos;,</div><div class="line">  connectTimeout: 3000 * 30,</div><div class="line">  supportBigNumbers: true, // 数据库支持bigint或decimal类型列时，需要设此option为true （默认：false）</div><div class="line">  user: &apos;root&apos;,</div><div class="line">  password: &apos;Password1!&apos;,</div><div class="line">  database: &apos;sample&apos;,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">connection.connect();</div><div class="line"></div><div class="line">connection.query(&apos;SELECT * from websites&apos;, function (error, results, fields) &#123;</div><div class="line">  if (error) throw error;</div><div class="line">  console.log(&apos;The websites array is: &apos;, results);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="MySql-Noted（持续更新）"><a href="#MySql-Noted（持续更新）" class="headerlink" title="MySql Noted（持续更新）"></a>MySql Noted（持续更新）</h4><ol>
+<li>取消外键约束</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Mysql中如果表和表之间建立的外键约束，则无法删除表及修改表结构。</div><div class="line"></div><div class="line">解决方法是在Mysql中取消外键约束:  </div><div class="line"></div><div class="line">SET FOREIGN_KEY_CHECKS=0;  </div><div class="line"></div><div class="line">然后将原来表的数据导出到sql语句，重新创建此表后，再把数据使用sql导入，</div><div class="line"></div><div class="line">然后再设置外键约束: </div><div class="line"></div><div class="line">SET FOREIGN_KEY_CHECKS=1;</div></pre></td></tr></table></figure>
+<hr>
+<h5 id="sql"><a href="#sql" class="headerlink" title=".sql"></a>.sql</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">drop database sample;</div><div class="line"></div><div class="line">CREATE DATABASE sample;</div><div class="line"></div><div class="line">use sample;</div><div class="line"></div><div class="line">SET NAMES utf8;</div><div class="line">SET FOREIGN_KEY_CHECKS = 0;    /*  取消外键约束 */</div><div class="line"></div><div class="line">DROP TABLE IF EXISTS `websites`;</div><div class="line"></div><div class="line">CREATE TABLE `websites` (</div><div class="line">	`id` int(11) NOT NULL AUTO_INCREMENT,</div><div class="line">    `name` varchar(40) NOT NULL DEFAULT &apos;&apos; COMMENT &apos;名称&apos;,</div><div class="line">    `url` varchar(250) NOT NULL DEFAULT &apos;&apos;,</div><div class="line">    `country` char(10) NOT NULL DEFAULT &apos;&apos; COMMENT &apos;国家&apos;,</div><div class="line">    PRIMARY KEY (`id`)</div><div class="line">) AUTO_INCREMENT = 6 DEFAULT CHARSET=utf8;</div><div class="line"></div><div class="line">BEGIN;</div><div class="line">INSERT INTO `websites` VALUES </div><div class="line">(&apos;1&apos;, &apos;Google&apos;, &apos;https://www.google.cm/&apos;, &apos;USA&apos;), </div><div class="line">(&apos;2&apos;, &apos;淘宝&apos;, &apos;https://www.taobao.com/&apos;, &apos;CN&apos;), </div><div class="line">(&apos;3&apos;, &apos;菜鸟教程&apos;, &apos;http://www.runoob.com/&apos;, &apos;CN&apos;), </div><div class="line">(&apos;4&apos;, &apos;微博&apos;, &apos;http://weibo.com/&apos;, &apos;CN&apos;), </div><div class="line">(&apos;5&apos;, &apos;Facebook&apos;, &apos;https://www.facebook.com/&apos;, &apos;USA&apos;);</div><div class="line"></div><div class="line">COMMIT;</div><div class="line"></div><div class="line"></div><div class="line">SET FOREIGN_KEY_CHECKS = 1;  /* 重新建立外键约束 */</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -345,9 +346,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Github-io/" rel="tag"># Github.io</a>
-          
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
       
@@ -360,15 +359,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/03/20/Event-Loop/" rel="next" title="Event-Loop">
+                <i class="fa fa-chevron-left"></i> Event-Loop
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/01/Node-Js-RSA-AES/" rel="prev" title="Node.Js RSA & AES">
-                Node.Js RSA & AES <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -497,7 +496,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Github-Pages-Config"><span class="nav-number">2.</span> <span class="nav-text">Github Pages Config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-Help"><span class="nav-number">3.</span> <span class="nav-text">Hexo Help</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">3.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">3.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">3.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">3.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySql-安装"><span class="nav-number">1.</span> <span class="nav-text">MySql 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-连接"><span class="nav-number">2.</span> <span class="nav-text">Node 连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySql-Noted（持续更新）"><span class="nav-number">3.</span> <span class="nav-text">MySql Noted（持续更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sql"><span class="nav-number">3.1.</span> <span class="nav-text">.sql</span></a></li></ol></li></ol></div>
             
 
           </div>
