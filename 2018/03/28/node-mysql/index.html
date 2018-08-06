@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
+<meta name="description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务1234567891011121314// 初始化安装&amp;gt; m">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node 连接 MySql">
-<meta property="og:url" content="http://yoursite.com/2018/03/28/nonde-mysql/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/node-mysql/index.html">
 <meta property="og:site_name" content="JAMES">
-<meta property="og:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
+<meta property="og:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务1234567891011121314// 初始化安装&amp;gt; m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-23T01:30:01.129Z">
+<meta property="og:updated_time" content="2018-08-06T01:06:26.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node 连接 MySql">
-<meta name="twitter:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务123456789// 初始化安装&amp;gt; mysqld --in">
+<meta name="twitter:description" content="MySql 安装在使用 node 连接 mysql前，准备好 mysql 环境 进入 MySql 官网 下载 MySql Server  另外前端工具可以使用官方提供的 MySql Workbench，似乎没中文版   打开 MySql 压缩包，免安装，进入 bin 目录 在使用 mysql 之前，需要启动服务，这里直接注册为服务1234567891011121314// 初始化安装&amp;gt; m">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/28/nonde-mysql/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/28/node-mysql/"/>
 
 
 
@@ -243,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/28/nonde-mysql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/28/node-mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James.Yang">
@@ -318,7 +318,7 @@
 </blockquote>
 <ol>
 <li>打开 MySql 压缩包，免安装，进入 bin 目录</li>
-<li>在使用 mysql 之前，需要启动服务，这里直接注册为服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 初始化安装</div><div class="line">&gt; mysqld --initialize --user=root --console (仔细看log，记录下生成的临时密码)</div><div class="line">&gt; mysql -u root -p (Can not connect to MySQL server on localhost (10061))</div><div class="line">&gt; mysqld --install</div><div class="line">&gt; net start mysql (启动服务)</div><div class="line">&gt; mysql -u root -p</div><div class="line">&gt; Enter password:******* （输入临时密码）</div><div class="line">&gt; (登录成功)</div><div class="line">&gt; set password=password(&quot;newPassword&quot;);</div></pre></td></tr></table></figure>
+<li>在使用 mysql 之前，需要启动服务，这里直接注册为服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 初始化安装</div><div class="line">&gt; mysqld --initialize --user=root --console (仔细看log，记录下生成的临时密码)</div><div class="line">&gt; mysql -u root -p (Can not connect to MySQL server on localhost (10061))</div><div class="line">&gt; mysqld --install</div><div class="line">&gt; net start mysql (启动服务)</div><div class="line">&gt; mysql -u root -p</div><div class="line">&gt; Enter password:******* （输入临时密码）</div><div class="line">&gt; (登录成功)</div><div class="line">&gt; set password=password(&quot;newPassword&quot;); （对于8.0以前有效）</div><div class="line"></div><div class="line">// 对于 8.0 以后</div><div class="line">&gt; ALTER USER &apos;root&apos;@&apos;%&apos; IDENTIFIED WITH mysql_native_password BY &apos;你的密码&apos;;</div><div class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED WITH mysql_native_password BY &apos;你的密码&apos;;</div><div class="line">SELECT plugin FROM mysql.user WHERE User = &apos;root&apos;;</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <hr>
