@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MongoDB,Role Management," />
+  <meta name="keywords" content="mysql,事务,锁," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Overview MongoDB   MongoDB is a NoSql database which is very easy to install and use. In fact, mongod has no administrator account by default. So if you build your database in a open public net enviro">
-<meta name="keywords" content="MongoDB,Role Management">
+<meta name="description" content="事务四大特性（ACID） 简单理解，事务是一组原子性的的SQL操作，这一组SQL要么全部执行成功，要么全部执行失败   原子性：一个事物是不可分割的最小工作单元，整个事务要么全部执行成功，要么全部执行失败，不可能只执行中间的一部分操作 一致性：执行事务是使数据库从一个一致性状态到另一个一致性状态，如果事务最终没有被提交，那么事务所做的修改也不会保存到数据库中 隔离性：通常，一个事务提交前对于其他">
+<meta name="keywords" content="mysql,事务,锁">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MongoDB-Role-Management.md">
-<meta property="og:url" content="http://yoursite.com/2017/12/11/mongodb-role-management/index.html">
+<meta property="og:title" content="MySql - 事务 &amp; 锁">
+<meta property="og:url" content="http://yoursite.com/2018/08/21/mysql-lock/index.html">
 <meta property="og:site_name" content="JAMES">
-<meta property="og:description" content="Overview MongoDB   MongoDB is a NoSql database which is very easy to install and use. In fact, mongod has no administrator account by default. So if you build your database in a open public net enviro">
+<meta property="og:description" content="事务四大特性（ACID） 简单理解，事务是一组原子性的的SQL操作，这一组SQL要么全部执行成功，要么全部执行失败   原子性：一个事物是不可分割的最小工作单元，整个事务要么全部执行成功，要么全部执行失败，不可能只执行中间的一部分操作 一致性：执行事务是使数据库从一个一致性状态到另一个一致性状态，如果事务最终没有被提交，那么事务所做的修改也不会保存到数据库中 隔离性：通常，一个事务提交前对于其他">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-16T08:55:26.917Z">
+<meta property="og:updated_time" content="2018-08-21T06:29:03.148Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MongoDB-Role-Management.md">
-<meta name="twitter:description" content="Overview MongoDB   MongoDB is a NoSql database which is very easy to install and use. In fact, mongod has no administrator account by default. So if you build your database in a open public net enviro">
+<meta name="twitter:title" content="MySql - 事务 &amp; 锁">
+<meta name="twitter:description" content="事务四大特性（ACID） 简单理解，事务是一组原子性的的SQL操作，这一组SQL要么全部执行成功，要么全部执行失败   原子性：一个事物是不可分割的最小工作单元，整个事务要么全部执行成功，要么全部执行失败，不可能只执行中间的一部分操作 一致性：执行事务是使数据库从一个一致性状态到另一个一致性状态，如果事务最终没有被提交，那么事务所做的修改也不会保存到数据库中 隔离性：通常，一个事务提交前对于其他">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/11/mongodb-role-management/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/21/mysql-lock/"/>
 
 
 
 
 
-  <title>MongoDB-Role-Management.md | JAMES</title>
+  <title>MySql - 事务 & 锁 | JAMES</title>
   
 
 
@@ -243,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/11/mongodb-role-management/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/21/mysql-lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James.Yang">
@@ -260,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MongoDB-Role-Management.md</h1>
+          <h1 class="post-title" itemprop="name headline">MySql - 事务 & 锁</h1>
         
 
         <div class="post-meta">
@@ -272,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-11T15:35:28+08:00">
-                2017-12-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T14:26:51+08:00">
+                2018-08-21
               </time>
             
 
@@ -310,24 +310,73 @@
       
 
       
-        <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><blockquote>
-<p><a href="https://www.mongodb.com/" target="_blank" rel="noopener">MongoDB</a> </p>
+        <hr>
+<h4 id="事务四大特性（ACID）"><a href="#事务四大特性（ACID）" class="headerlink" title="事务四大特性（ACID）"></a>事务四大特性（ACID）</h4><blockquote>
+<p>简单理解，事务是一组原子性的的SQL操作，这一组SQL要么全部执行成功，要么全部执行失败</p>
 </blockquote>
-<p>MongoDB is a NoSql database which is very easy to install and use.</p>
-<p>In fact, mongod has no administrator account by default. So if you build your database in a open public net environment that will be very vulnerable. Others can operation your database data at will.</p>
+<ul>
+<li>原子性：一个事物是不可分割的最小工作单元，整个事务要么全部执行成功，要么全部执行失败，不可能只执行中间的一部分操作</li>
+<li>一致性：执行事务是使数据库从一个一致性状态到另一个一致性状态，如果事务最终没有被提交，那么事务所做的修改也不会保存到数据库中</li>
+<li>隔离性：通常，一个事务提交前对于其他事务是不可见的，但是隔离性需要参考“隔离级别”</li>
+<li>持久性：事务一旦被提交，那么对数据库的修改将会被永久保存，即时数据库奔溃后修改的数据也不会丢失</li>
+</ul>
+<h4 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h4><blockquote>
+<p>SQL 标准中定义了四种隔离级别</p>
+</blockquote>
+<ul>
+<li>未提交读：未提交读是指，在事务中的修改，即使没有提交，对其他事务也都是可见的，但是这样会出现脏读，一般情况下都不会使用 “未提交读”</li>
+<li>提交读：提交读指的是，一个事务所做的修改在提交之前对其他事务都是不可见的，这个级别也叫做 “不可重复读”，因为执行两次相同的操作，可能会得到不同的结果</li>
+<li>可重复读：可重复读解决了 “脏读” 的问题，这个级别保证了同一个事务多次读取同样记录的结果是一致的，但是这个隔离级别无法解决 “幻读” 的问题。所谓 “幻读” 就是当某个事务读取范围数据时，另一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围数据时，会产生 “幻行” 。 InnoDB 存储引擎通过 MVCC 解决了幻读的问题，可重复读是 MySQL 默认的事务隔离级别</li>
+<li>可串行化：是最高的隔离级别，避免了前面说到的 “幻读问题”。可串行化会给读取的每一行都加锁，所以可能导致大量超时和锁争用的问题，实际使用中很少使用这个隔离级别</li>
+</ul>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>死锁是指两个或者多个事务在同一资源上相互占用，并请求锁定对方占用的资源。<br>解决方案是：回滚一个或者多个事务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">graph LR</div><div class="line">A--&gt;B</div><div class="line">B--&gt;A</div></pre></td></tr></table></figure>
+<h4 id="MCVV"><a href="#MCVV" class="headerlink" title="MCVV"></a>MCVV</h4><p>MVVC 是行锁的一个比那种，在很多情况下MVVC可以避免加锁，因此开销较小，而不同的事务型存储引擎对于MVVC的实现各有不同。<br><br>MVVC是通过保存数据在某个时间点的快照来实现的。不管执行多长时间，每个事务看到的数据都是一致的。根据事务的开始时间不同，每个事务对同一张表，同一时刻看到的数据可能不一样。<br><br>InnoDB 的 MVVC 通过在每行记录后面保存两个隐藏的列来实现。这两个列，一个是保存了行的创建时间，一个保存了行的过期时间，存储的不是实际时间，而是版本号。每个新开始的事务，系统版本号都会自动增加。事务开始时刻的系统版本号会作为事务的版本号，用来与查询到的每行记录的版本号作对比。</p>
+<hr>
+<ul>
+<li>SELECT <br></li>
+</ul>
+<blockquote>
+<p>InnoDB 会根据以下两个条件检查每条记录:</p>
+</blockquote>
+<ol>
+<li>只查找版本小于等于失误版本号的行</li>
+<li>只查找未定义删除事件或者删除时间大于事务版本号的行</li>
+</ol>
+<ul>
+<li>INSERT</li>
+</ul>
+<blockquote>
+<p>InnoDB 为新插入的每一行保存当前的系统版本号作为行版本号</p>
+</blockquote>
+<ul>
+<li>DELETE</li>
+</ul>
+<blockquote>
+<p>InnoDB 为删除的每一行保存当前的系统版本号作为行的删除版本号</p>
+</blockquote>
+<ul>
+<li>UPDATE</li>
+</ul>
+<ol>
+<li>InnoDB 新增一条记录，保存当前系统版本号作为新增行的版本号</li>
+<li>在被删除记录的原始航，保存当前系统版本号作为被删除记录行的删除版本号</li>
+</ol>
 <hr>
 <blockquote>
-<h4 id="Role-Kinds"><a href="#Role-Kinds" class="headerlink" title="Role Kinds"></a>Role Kinds</h4></blockquote>
-<p>The users of MongoDB are divided into <strong>two</strong> types, one is admin, the other is a specific database user.</p>
-<p>Admin users have the highest permissions, while specific database users can only access specific databases</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol>
+<li>因为有了两个隐藏列来记录数据的状态，所以大多数读操作都可以不加锁</li>
+<li>性能好，同时可以保证读取的数据是正确的</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>需要额外的空间记录每行的状态</li>
+<li>需要行状态的维护和检查</li>
+</ol>
+</blockquote>
 <hr>
 <blockquote>
-<h4 id="Role-Management"><a href="#Role-Management" class="headerlink" title="Role Management"></a>Role Management</h4></blockquote>
-<p>Before you create your database user. We need to noted that MondoDB provide a database names <strong><em>admin</em></strong>. If your want to control the access user, firstly have to create a admin user into admin database. Then you can create the user for the database.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; use admin</div><div class="line"></div><div class="line">&gt; db.createUser(&#123;user: &quot;admin&quot;, pwd: &quot;adminPassword&quot;, roles: [&#123;role: &quot;root&quot;, db: &quot;admin&quot;&#125;]&#125;)</div><div class="line"></div><div class="line">&gt; exit</div><div class="line"></div><div class="line">// restart mongo</div><div class="line">mongo --port 27017 -u admin -p adminPassword --authenticationDatabase admin</div><div class="line"></div><div class="line">&gt; use testDB</div><div class="line">&gt; db.createUser(&#123;user: &quot;testUser&quot;, pwd: &quot;dbPassword&quot;, roles: [&#123;role: &quot;readWrite&quot;, db: &quot;testDB&quot;&#125;]&#125;)</div><div class="line"></div><div class="line">&gt; db.auth(&quot;testUser&quot;, &quot;dbPassword&quot;)</div></pre></td></tr></table></figure>
-<blockquote>
-<h4 id="Start-DB-Auth"><a href="#Start-DB-Auth" class="headerlink" title="Start DB Auth"></a>Start DB Auth</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; mongod --auth</div></pre></td></tr></table></figure>
+<p>参考自 <a href="https://juejin.im/post/5b76938de51d45664715fba8?utm_source=gold_browser_extension" target="_blank" rel="noopener">掘金</a></p>
+</blockquote>
 
       
     </div>
@@ -345,9 +394,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
-            <a href="/tags/Role-Management/" rel="tag"># Role Management</a>
+            <a href="/tags/事务/" rel="tag"># 事务</a>
+          
+            <a href="/tags/锁/" rel="tag"># 锁</a>
           
         </div>
       
@@ -360,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/01/Node-Js-RSA-AES/" rel="next" title="Node.Js RSA & AES">
-                <i class="fa fa-chevron-left"></i> Node.Js RSA & AES
+              <a href="/2018/03/28/node-mysql/" rel="next" title="Node 连接 MySql">
+                <i class="fa fa-chevron-left"></i> Node 连接 MySql
               </a>
             
           </div>
@@ -369,10 +420,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/15/node-express-upload-params/" rel="prev" title="Express 实现带参上传文件">
-                Express 实现带参上传文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -501,7 +548,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Role-Kinds"><span class="nav-number">1.0.1.</span> <span class="nav-text">Role Kinds</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Role-Management"><span class="nav-number">1.0.2.</span> <span class="nav-text">Role Management</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Start-DB-Auth"><span class="nav-number">1.0.3.</span> <span class="nav-text">Start DB Auth</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#事务四大特性（ACID）"><span class="nav-number">1.</span> <span class="nav-text">事务四大特性（ACID）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离级别"><span class="nav-number">2.</span> <span class="nav-text">隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#死锁"><span class="nav-number">3.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MCVV"><span class="nav-number">4.</span> <span class="nav-text">MCVV</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
             
 
           </div>
