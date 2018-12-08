@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Environment本次打在的 Nginx-RTMP 流媒体服务器，是在 Win10 下虚拟机安装配置的。因为网上大多数分享都是 ubuntu 的，而这里主要是用了 centos，主要是 Lib 的下载有细小的差别。  Linux 系统： Linux-CentOS 7 x64   Stage 1安装编译 nginx 需要的所有库 123456789&amp;lt;!-- centOS 是不能直接找到这些">
+<meta name="keywords" content="RTMP,Nginx-RTMP,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx-RTMP">
+<meta property="og:url" content="http://yoursite.com/2018/12/08/nginx-rtmp/index.html">
+<meta property="og:site_name" content="JAMES">
+<meta property="og:description" content="Environment本次打在的 Nginx-RTMP 流媒体服务器，是在 Win10 下虚拟机安装配置的。因为网上大多数分享都是 ubuntu 的，而这里主要是用了 centos，主要是 Lib 的下载有细小的差别。  Linux 系统： Linux-CentOS 7 x64   Stage 1安装编译 nginx 需要的所有库 123456789&amp;lt;!-- centOS 是不能直接找到这些">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://josenspire.github.io/images/rtmp-bos-setting.png">
+<meta property="og:updated_time" content="2018-12-08T15:22:19.921Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx-RTMP">
+<meta name="twitter:description" content="Environment本次打在的 Nginx-RTMP 流媒体服务器，是在 Win10 下虚拟机安装配置的。因为网上大多数分享都是 ubuntu 的，而这里主要是用了 centos，主要是 Lib 的下载有细小的差别。  Linux 系统： Linux-CentOS 7 x64   Stage 1安装编译 nginx 需要的所有库 123456789&amp;lt;!-- centOS 是不能直接找到这些">
+<meta name="twitter:image" content="https://josenspire.github.io/images/rtmp-bos-setting.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/08/nginx-rtmp/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Nginx-RTMP | JAMES</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JAMES</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Accueil</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />A propos</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/08/nginx-rtmp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James.Yang">
+      <meta itemprop="description" content="我不知道未来我将去何方，但我一直在路上">
+      <meta itemprop="image" content="/images/head-icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JAMES">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nginx-RTMP
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posté le</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2018-12-08 23:20:56 / Updated at: 23:22:19" itemprop="dateCreated datePublished" datetime="2018-12-08T23:20:56+08:00">2018-12-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h4><p>本次打在的 Nginx-RTMP 流媒体服务器，是在 Win10 下虚拟机安装配置的。因为网上大多数分享都是 ubuntu 的，而这里主要是用了 centos，主要是 Lib 的下载有细小的差别。</p>
+<blockquote>
+<p>Linux 系统： <a href="https://note.youdao.com/" target="_blank" rel="noopener">Linux-CentOS 7 x64</a></p>
+</blockquote>
+<hr>
+<h4 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h4><p>安装编译 nginx 需要的所有库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;!-- centOS 是不能直接找到这些 lib 的 --&gt;</div><div class="line">&lt;!-- sudo apt-get install build-essential --&gt;</div><div class="line"></div><div class="line">sudo yum groupinstall &quot;Development Tools&quot;</div><div class="line"></div><div class="line">sudo yum -y install openssl openssl-devel</div><div class="line"></div><div class="line">&lt;!-- 可以通过 yum search &quot;%package%&quot; 查找--&gt;</div><div class="line">sudo yum -y install pcre2-devel pcre2-tools</div></pre></td></tr></table></figure>
+<h4 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h4><ol>
+<li>下载 <a href="https://github.com/arut/nginx-rtmp-module" target="_blank" rel="noopener">nginx-rtmp-module</a>：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/arut/nginx-rtmp-module.git</div></pre></td></tr></table></figure>
+<ol>
+<li>安装 nginx</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 如果没有 wget 先安装 yum install -y wget --&gt;</div><div class="line"></div><div class="line">&gt; wget http://nginx.org/download/nginx-1.9.15.tar.gz</div><div class="line"></div><div class="line">&gt; tar -zxvf nginx-1.9.15.tar.gz</div><div class="line">&gt; unzip master.zip</div><div class="line">&gt; cd nginx-1.9.15</div><div class="line"></div><div class="line">&gt; ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-master</div><div class="line">&gt; sudo make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<ol>
+<li>检查 nginx 是否安装成功</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /usr/local/nginx/sbin/nginx</div></pre></td></tr></table></figure>
+<h4 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h4><ol>
+<li>修改nginx配置文件：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; vi /usr/local/nginx/conf/nginx.conf</div><div class="line"></div><div class="line">&lt;!-- 键盘 i 进入编写状态，编写结束按 ESC 键，输入 &quot;::wq&quot; 并回车 —— 保存退出--&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>添加配置：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">... ...</div><div class="line"></div><div class="line">rtmp &#123;</div><div class="line">    server &#123;</div><div class="line">        listen 1935;  #监听的端口 </div><div class="line">        chunk_size 4096;</div><div class="line">        </div><div class="line">        application hls &#123;  #rtmp推流请求路径 </div><div class="line">            live on;</div><div class="line">            hls on;</div><div class="line">            hls_path /usr/share/nginx/html/hls;</div><div class="line">            hls_fragment 5s;   </div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        application live &#123;  #多个app配置</div><div class="line">            live on;</div><div class="line">            record off;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"># 注意 rtmp 配置的编写位置是跟 http 同级</div><div class="line">http &#123;</div><div class="line">    include     mime.types;</div><div class="line">    ... ...</div><div class="line">    ... ...</div><div class="line">&#125;</div><div class="line">... ...</div></pre></td></tr></table></figure>
+<ol>
+<li>重启 nginx</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; sudo /usr/local/nginx/sbin/nginx -s stop</div><div class="line">&gt; sudo /usr/local/nginx/sbin/nginx</div></pre></td></tr></table></figure>
+<ol>
+<li>检查 nginx 是否运行成功</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Linux 中每个应用运行都会产生一个进程 --&gt;</div><div class="line">&gt; ps -ef | grep nginx</div></pre></td></tr></table></figure>
+<p>到此 nginx-rtmp 服务器基本搭建完成，接下来是测试推流，测试刚刚搭建这个服务器</p>
+<hr>
+<h4 id="推流测试篇"><a href="#推流测试篇" class="headerlink" title="推流测试篇"></a>推流测试篇</h4><blockquote>
+<p>这里还没有代码实现，所以暂时用工具替代来帮助我们测试<br>这里用的是 <a href="http://www.obsapp.net/" target="_blank" rel="noopener">OBS</a> 推流</p>
+</blockquote>
+<ul>
+<li>bos 基本设置如下，可以选用 “显示器内容” 进行串流测试，主要要配置的是 “串流服务” 的 ++”FMS URL”++</li>
+</ul>
+<p><img src="https://josenspire.github.io/images/rtmp-bos-setting.png" alt="image"></p>
+<h4 id="Note"><a href="#Note" class="headerlink" title="- Note"></a>- Note</h4><blockquote>
+<p>此处如果跟我一样是用 Linux 虚拟器跑的，应该先获取到虚拟机的 ip 地址，linux 下的 ip 获取命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ip addr</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>具体获取方式网上有很多分析这里不再赘述，而我们测试地址和 nginx 是否可用的方式则是在本地PC直接使用 虚拟机 ip+端口号访问 nginx 首页，如访问成功，则证明 ip 和 nginx 都是正确可用的，此时可以直接配置到 FMS URL 中，开始串流测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FMS URL: rtmp://192.168.XXX.28:1935/live</div></pre></td></tr></table></figure>
+<ul>
+<li>上述都正常配置，点击 “开始串流”，如一切正常，可在右下角看到当前传输的网络速度，此时可以点击 “开始录制” 进行直播录制，在对应存储文件下可以找到 .flv 格式的文件生成。</li>
+</ul>
+<hr>
+<h4 id="异常记录："><a href="#异常记录：" class="headerlink" title="异常记录："></a>异常记录：</h4><ul>
+<li>“Connect timeout”：nginx 没有正常开启，或 本机/虚拟机的防火墙没有打开（网上有很多详细介绍），或 FMS URL 中的 ip 地址、端口不对</li>
+<li>“RTMPSockBuf_Fill, remote host closed connection”：地址和端口都对了，但是 URL 的文件位置不对，没做过测试，但是感觉应该是路径上的文件必须是已经存在的文件夹；即：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Work: rtmp://192.168.XXX.28:1935/live</div><div class="line">Fail: rtmp://192.168.XXX.28:1935/live/test</div></pre></td></tr></table></figure>
+<p>除非 test 文件夹存在 （猜的，太懒不做测试了–！）</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RTMP/" rel="tag"># RTMP</a>
+          
+            <a href="/tags/Nginx-RTMP/" rel="tag"># Nginx-RTMP</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/10/vue-input/" rel="next" title="Vue-Input 限制数字&小数位输入">
+                <i class="fa fa-chevron-left"></i> Vue-Input 限制数字&小数位输入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Des Matières
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ensemble
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head-icon.jpg"
+                alt="James.Yang" />
+            
+              <p class="site-author-name" itemprop="name">James.Yang</p>
+              <p class="site-description motion-element" itemprop="description">我不知道未来我将去何方，但我一直在路上</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">articles</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment"><span class="nav-number">1.</span> <span class="nav-text">Environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-1"><span class="nav-number">2.</span> <span class="nav-text">Stage 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-2"><span class="nav-number">3.</span> <span class="nav-text">Stage 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-3"><span class="nav-number">4.</span> <span class="nav-text">Stage 3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推流测试篇"><span class="nav-number">5.</span> <span class="nav-text">推流测试篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Note"><span class="nav-number">6.</span> <span class="nav-text">- Note</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常记录："><span class="nav-number">7.</span> <span class="nav-text">异常记录：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James.Yang</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Thème – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '3b58e7018892fa04e7fd',
+      clientSecret: '3fc04e2b6587cdf67d2356905b60683a7792bb5c',
+      repo: 'josenspire.github.io',
+      owner: 'josenspire',
+      admin: ['josenspire'],
+      id: location.pathname,
+      distractionFreeMode: 'true'
+    })
+    gitalk.render('gitalk-container')
+  </script>
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
